@@ -114,7 +114,7 @@
   'orb' => array(xl('Proc Bat')  , 0, 'orders/orders_results.php?batch=1'),
   'cht' => array(xl('Chart Trk') , 0, '../custom/chart_tracker.php'),
   'imp' => array(xl('Import')    , 0, '../custom/import.php'),
-  'bil' => array(xl('Billing')   , 0, 'billing/billing_report.php'),
+  'bil' => array(xl('Billing')   , 0, 'billing/billing_report.php?first=1'),
   'sup' => array(xl('Superbill') , 0, 'patient_file/encounter/superbill_custom_full.php'),
   'aun' => array(xl('Authorizations'), 0, 'main/authorizations/authorizations.php'),
   'new' => array(xl('New Pt')    , 0, 'new/new.php'),
