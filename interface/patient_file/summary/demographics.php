@@ -137,6 +137,7 @@ $vitals_is_registered = $tmp['count'];
 <?php include_once("$srcdir/sha1.js"); ?>
 
 <script type="text/javascript" language="JavaScript">
+<?php require_once($GLOBALS['srcdir'] . "/no_frames/initialize_noframes.php"); ?>    
 //Visolve - sync the radio buttons - Start
 if((top.window.parent) && (parent.window)){
         var wname = top.window.parent.left_nav;
