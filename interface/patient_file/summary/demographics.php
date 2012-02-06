@@ -137,7 +137,6 @@ $vitals_is_registered = $tmp['count'];
 <?php include_once("$srcdir/sha1.js"); ?>
 
 <script type="text/javascript" language="JavaScript">
-<?php require_once($GLOBALS['srcdir'] . "/no_frames/initialize_noframes.php"); ?>    
 //Visolve - sync the radio buttons - Start
 if((top.window.parent) && (parent.window)){
         var wname = top.window.parent.left_nav;
@@ -525,6 +524,7 @@ if ($GLOBALS['patient_id_category_name']) {
  </tr>
 </table> <!-- end header -->
 
+<?php $_REQUEST['patientID']=$_SESSION['pid']; require_once("$srcdir/doctrine/ui/Widgets/PatientEvents/PatientEventsWidget.php"); ?>
 <div style='margin-top:10px'> <!-- start main content div -->
  <table border="0" cellspacing="0" cellpadding="0" width="100%">
      
