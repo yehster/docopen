@@ -520,11 +520,12 @@ if ($GLOBALS['patient_id_category_name']) {
 |
 <a href="stats_full.php?active=all" onclick='top.restoreSession()'>
 <?php echo htmlspecialchars(xl('Issues'),ENT_NOQUOTES); ?></a>
+|<?php $_REQUEST['patientID']=$_SESSION['pid']; require_once("$srcdir/doctrine/ui/Widgets/PatientEvents/PatientEventsWidget.php"); ?>
   </td>
  </tr>
 </table> <!-- end header -->
 
-<?php $_REQUEST['patientID']=$_SESSION['pid']; require_once("$srcdir/doctrine/ui/Widgets/PatientEvents/PatientEventsWidget.php"); ?>
+
 <div style='margin-top:10px'> <!-- start main content div -->
  <table border="0" cellspacing="0" cellpadding="0" width="100%">
      

@@ -101,6 +101,7 @@
   'ros' => array(xl('Roster')    , 0, 'reports/players_report.php?embed=1'),
   'cal' => array(xl('Calendar')  , 0, 'main/main_info.php'),
   'dct' => array(xl('My Documents'), 0 , '../library/doctrine/ui/Documents/MyDocuments.php'),
+  'das' => array(xl('Dashboard') , 0, '../library/doctrine/ui/PatientDashboard/PatientDashboard.php'),
   'app' => array(xl('Portal Activity')  , 0, '../myportal/index.php'),
   'msg' => array(xl('Messages')  , 0, 'main/messages/messages.php'),
   'pwd' => array(xl('Password')  , 0, 'usergroup/user_info.php'),
@@ -1081,6 +1082,7 @@ if ($GLOBALS['athletic_team']) {
 
   <?php if (!$GLOBALS['disable_calendar'] && !$GLOBALS['ippf_specific']) genTreeLink('RTop','cal',xl('Calendar')); ?>
   <?php genTreeLink('RTop','dct',xl('My Documents')); ?>
+  <?php genTreeLink('RTop','das',xl('Dashboard')); ?>
   <?php genTreeLink('RBot','msg',xl('Messages')); ?>
   <?php if ($GLOBALS['lab_exchange_enable']) genTreeLink('RTop', 'lab', xl('Check Lab Results'));?>
   <?php if($GLOBALS['portal_offsite_enable'] && $GLOBALS['portal_offsite_address'] && acl_check('patientportal','portal'))  genTreeLink('RTop','app',xl('Portal Activity')); ?>
