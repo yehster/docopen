@@ -940,7 +940,7 @@ if ($GLOBALS['athletic_team']) {
   </td>
   <td class='smalltext' align='right' nowrap>
    <b><?php xl('Bot','e') ?></b>
-   <input type='checkbox' name='cb_bot' onclick='toggleFrame(2)' />
+   <input type='checkbox' name='cb_bot' onclick='toggleFrame(2)' checked/>
   </td>
  </tr>
 </table>
