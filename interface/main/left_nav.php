@@ -102,6 +102,7 @@
   'cal' => array(xl('Calendar')  , 0, 'main/main_info.php'),
   'dct' => array(xl('My Documents'), 0 , '../library/doctrine/ui/Documents/MyDocuments.php'),
   'das' => array(xl('Dashboard') , 0, '../library/doctrine/ui/PatientDashboard/PatientDashboard.php'),
+  'app' => array(xl('Portal Activity') , 0, '../myportal/index.php'),  
   'app' => array(xl('Portal Activity')  , 0, '../myportal/index.php'),
   'msg' => array(xl('Messages')  , 0, 'main/messages/messages.php'),
   'pwd' => array(xl('Password')  , 0, 'usergroup/user_info.php'),
@@ -115,7 +116,7 @@
   'orb' => array(xl('Proc Bat')  , 0, 'orders/orders_results.php?batch=1'),
   'cht' => array(xl('Chart Trk') , 0, '../custom/chart_tracker.php'),
   'imp' => array(xl('Import')    , 0, '../custom/import.php'),
-  'bil' => array(xl('Billing')   , 0, 'billing/billing_report.php?first=1'),
+  'bil' => array(xl('Billing')   , 0, 'billing/billing_report.php'),
   'sup' => array(xl('Superbill') , 0, 'patient_file/encounter/superbill_custom_full.php'),
   'aun' => array(xl('Authorizations'), 0, 'main/authorizations/authorizations.php'),
   'new' => array(xl('New Pt')    , 0, 'new/new.php'),
@@ -189,7 +190,7 @@
      echo "forceSpec(false,true);";
    }
    echo "return loadFrame2('$id','$frame','" .
-        $primary_docs[$name][2] . "')\">" . $title . "</a></li>";
+        $primary_docs[$name][2] . "')\">" . $title . ($name == 'msg' ? ' <span id="reminderCountSpan" class="bold"></span>' : '')."</a></li>";
   }
  }
  function genMiscLink($frame, $name, $level, $title, $url, $mono=false) {
@@ -361,7 +362,26 @@ function genFindBlock() {
 <script type="text/javascript" src="../../library/dialog.js"></script>
 
 <script language='JavaScript'>
-
+ 
+ // tajemo work by CB 2012/01/31 12:32:57 PM dated reminders counter
+ function getReminderCount(){ 
+   top.restoreSession();
+   // Send the skip_timeout_reset parameter to not count this as a manual entry in the
+   //  timing out mechanism in OpenEMR.
+   $.post("<?php echo $GLOBALS['webroot']; ?>/library/ajax/dated_reminders_counter.php",
+     { skip_timeout_reset: "1" }, 
+     function(data) {
+       $("#reminderCountSpan").html(data);
+    // run updater every 60 seconds 
+     var repeater = setTimeout("getReminderCount()", 60000); 
+   });
+ }   
+ 
+ $(document).ready(function (){
+   getReminderCount();//
+ }) 
+ // end of tajemo work dated reminders counter
+ 
  // Master values for current pid and encounter.
  var active_pid = 0;
  var active_encounter = 0;
@@ -940,7 +960,7 @@ if ($GLOBALS['athletic_team']) {
   </td>
   <td class='smalltext' align='right' nowrap>
    <b><?php xl('Bot','e') ?></b>
-   <input type='checkbox' name='cb_bot' onclick='toggleFrame(2)' checked/>
+   <input type='checkbox' name='cb_bot' onclick='toggleFrame(2)' <?php if (empty($GLOBALS['athletic_team'])) echo 'checked '; ?>/>
   </td>
  </tr>
 </table>
@@ -1081,9 +1101,9 @@ if ($GLOBALS['athletic_team']) {
 <?php } else { // not athletic team ?>
 
   <?php if (!$GLOBALS['disable_calendar'] && !$GLOBALS['ippf_specific']) genTreeLink('RTop','cal',xl('Calendar')); ?>
-  <?php genTreeLink('RTop','dct',xl('My Documents')); ?>
-  <?php genTreeLink('RTop','das',xl('Dashboard')); ?>
-  <?php genTreeLink('RBot','msg',xl('Messages')); ?>
+  <?php genTreeLink('Cal','dct',xl('My Documents')); ?>
+  <?php genTreeLink('Cal','das',xl('Dashboard')); ?>
+  <?php genTreeLink('RBot','msg',xl('Messages')); ?> 
   <?php if ($GLOBALS['lab_exchange_enable']) genTreeLink('RTop', 'lab', xl('Check Lab Results'));?>
   <?php if($GLOBALS['portal_offsite_enable'] && $GLOBALS['portal_offsite_address'] && acl_check('patientportal','portal'))  genTreeLink('RTop','app',xl('Portal Activity')); ?>
   <li class="open"><a class="expanded" id="patimg" ><span><?php xl('Patient/Client','e') ?></span></a>
@@ -1312,7 +1332,7 @@ if (!empty($reg)) {
       <li><a class="collapsed_lv2"><span><?php xl('Blank Forms','e') ?></span></a>
         <ul>
           <?php genPopLink(xl('Demographics'),'../patient_file/summary/demographics_print.php'); ?>
-          <?php genPopLink(xl('Fee Sheet'),'../patient_file/printed_fee_sheet.php'); ?>
+          <?php genPopLink(xl('Superbill/Fee Sheet'),'../patient_file/printed_fee_sheet.php'); ?>
           <?php genPopLink(xl('Referral'),'../patient_file/transaction/print_referral.php'); ?>
 <?php
   $lres = sqlStatement("SELECT * FROM list_options " .
